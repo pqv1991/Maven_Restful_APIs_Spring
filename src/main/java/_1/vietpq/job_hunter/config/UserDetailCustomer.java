@@ -1,4 +1,4 @@
-package _1.vietpq.job_hunter.service;
+package _1.vietpq.job_hunter.config;
 
 import java.util.Collections;
 
@@ -8,6 +8,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
+
+import _1.vietpq.job_hunter.service.user.UserService;
 
 //import _1.vietpq.job_hunter.domain.User;
 @Component("userDetailsService")
