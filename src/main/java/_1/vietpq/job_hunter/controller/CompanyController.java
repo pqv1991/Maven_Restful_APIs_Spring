@@ -66,7 +66,7 @@ public class CompanyController {
 
     @GetMapping("/companies/{id}")
     @ApiMessage("Fetch company get id")
-    public ResponseEntity<ResCompanyDTO> getCompanyById(@RequestParam("id") long id) throws InValidException {
+    public ResponseEntity<ResCompanyDTO> getCompanyById(@PathVariable("id") long id) throws InValidException {
         Optional<Company> company = companyService.fetchCompanyById(id);
         if(company.isEmpty()){
             throw new InValidException(CompanyMessage.NOT_FOUND);

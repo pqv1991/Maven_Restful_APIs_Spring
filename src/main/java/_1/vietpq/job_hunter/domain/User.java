@@ -1,20 +1,11 @@
 package _1.vietpq.job_hunter.domain;
 
 import java.time.Instant;
+import java.util.List;
 
 import _1.vietpq.job_hunter.util.Listener.UserListener;
 import _1.vietpq.job_hunter.util.contant.GenderEnum;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EntityListeners;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
@@ -45,5 +36,10 @@ public class User {
     @ManyToOne
     @JoinColumn(name="company_id")
     private Company company;
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<Resume> resumes;
+    @ManyToOne
+    @JoinColumn(name = "role_id")
+    private Role role;
 
 }

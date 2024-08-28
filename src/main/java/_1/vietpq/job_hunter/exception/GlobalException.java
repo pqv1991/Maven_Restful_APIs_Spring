@@ -38,6 +38,14 @@ public class GlobalException {
         res.setMessage(ex.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(res);
     }
+    @ExceptionHandler(value = UploadException.class)
+    public ResponseEntity<RestResponse<Object>> handleUploadException(Exception ex) {
+        RestResponse<Object> res = new RestResponse<Object>();
+        res.setStatusCode(HttpStatus.BAD_REQUEST.value());
+        res.setError("UPLOAD EXCEPTION");
+        res.setMessage(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(res);
+    }
 
     @ExceptionHandler(value = ForbiddenException.class)
     public ResponseEntity<RestResponse<Object>> handleForbiddenException(Exception ex) {

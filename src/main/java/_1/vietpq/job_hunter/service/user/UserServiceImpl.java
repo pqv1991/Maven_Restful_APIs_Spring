@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import _1.vietpq.job_hunter.dto.convertToDTO.ConvertToUserDTO;
 import _1.vietpq.job_hunter.exception.DuplicatedException;
 import _1.vietpq.job_hunter.exception.InValidException;
+import _1.vietpq.job_hunter.exception.NotFoundException;
 import _1.vietpq.job_hunter.exception.NotNullException;
 import _1.vietpq.job_hunter.exception.message.UserMessage;
 import _1.vietpq.job_hunter.util.validator.UserValidator;
@@ -66,10 +67,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public User fetchUser(long id) {
         Optional<User> userOptional = userRepository.findById(id);
-        if(userOptional.isPresent()){
-            return userOptional.get();
+        if(userOptional.isEmpty()){
+            throw new NotFoundException(UserMessage.NOT_FOUND);
         }
-       return null;
+        return userOptional.get();
     }
 
     @Override

@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import _1.vietpq.job_hunter.dto.convertToDTO.ConvertToCompanyDTO;
 import _1.vietpq.job_hunter.exception.DuplicatedException;
+import _1.vietpq.job_hunter.exception.NotFoundException;
 import _1.vietpq.job_hunter.exception.message.CompanyMessage;
 import _1.vietpq.job_hunter.util.validator.CompanyValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,23 +29,23 @@ public class CompanyServiceImpl implements CompanyService {
     @Override
     public Optional<Company> fetchCompanyById(long id) {
         Optional<Company> comOptional = companyRepository.findById(id);
-        if(comOptional.isPresent()){
-            return comOptional;
-        } 
-        return  null;
+        if(comOptional.isEmpty()){
+            throw  new NotFoundException(CompanyMessage.NOT_FOUND);
+        }
+        return comOptional;
     }
 
     @Override
     public ResultPaginationDTO fetAllCompany(Specification<Company> spec, Pageable pageable) {
-       Page<Company> pageCompanys = companyRepository.findAll(spec, pageable);
+       Page<Company> pageCompany = companyRepository.findAll(spec, pageable);
        ResultPaginationDTO rs = new ResultPaginationDTO();
        ResultPaginationDTO.Meta  mt = new ResultPaginationDTO.Meta();
        mt.setPage(pageable.getPageNumber()+1);
        mt.setPageSize(pageable.getPageSize());
-       mt.setPages(pageCompanys.getTotalPages());
-       mt.setTotal(pageCompanys.getTotalElements());
+       mt.setPages(pageCompany.getTotalPages());
+       mt.setTotal(pageCompany.getTotalElements());
        rs.setMeta(mt);
-       List<ResCompanyDTO> listComDTO = pageCompanys.getContent().stream().map(ConvertToCompanyDTO::convertResCompanyDTO).collect(Collectors.toList());
+       List<ResCompanyDTO> listComDTO = pageCompany.getContent().stream().map(ConvertToCompanyDTO::convertResCompanyDTO).collect(Collectors.toList());
         rs.setResult(listComDTO);          
     return rs;
     }
@@ -61,15 +62,15 @@ public class CompanyServiceImpl implements CompanyService {
     @Override
     public Company handleUpdateCompany(Company company) {
         Optional<Company> comOptional = companyRepository.findById(company.getId());
-        if(comOptional.isPresent()){
+        if(comOptional.isEmpty()) {
+            throw new NotFoundException(CompanyMessage.NOT_FOUND);
+        }
             Company comUpdate = comOptional.get();
             comUpdate.setName(company.getName());
             comUpdate.setAddress(company.getAddress());
             comUpdate.setDescription(company.getDescription());
             comUpdate.setLogo(company.getLogo());
             return companyRepository.save(comUpdate);
-        }
-       return null;
     }
 
     @Override
