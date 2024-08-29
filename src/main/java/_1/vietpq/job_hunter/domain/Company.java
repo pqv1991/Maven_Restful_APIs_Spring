@@ -35,7 +35,9 @@ public class Company {
     private Instant updatedAt;
     private String createdBy;
     private String updatedBy;
+
     @OneToMany(mappedBy = "company", fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<User> users;
     @OneToMany(mappedBy = "company", fetch = FetchType.LAZY)
     @JsonIgnore

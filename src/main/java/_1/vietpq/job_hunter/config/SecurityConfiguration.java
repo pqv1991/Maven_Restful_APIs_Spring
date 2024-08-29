@@ -20,6 +20,7 @@ public class SecurityConfiguration {
     String[] whileList = {"/",
                             "api/v1/auth/login",
                             "api/v1/auth/refresh",
+                            "/api/v1/resumes/**",
                             "/storage/**"
     };
     @Bean
@@ -31,6 +32,7 @@ public class SecurityConfiguration {
                 authz -> authz.requestMatchers(whileList).permitAll()
                         .requestMatchers(HttpMethod.GET,"api/v1/jobs/**").permitAll()
                         .requestMatchers(HttpMethod.GET,"api/v1/companies/**").permitAll()
+                        .requestMatchers(HttpMethod.GET,"api/v1/skills/**").permitAll()
                                 .anyRequest().authenticated()
                                
                    

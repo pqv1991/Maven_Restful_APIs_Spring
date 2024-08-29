@@ -21,7 +21,7 @@ public class Role {
     private long id;
     private String name;
     private String description;
-    private boolean action;
+    private boolean active;
     private Instant createdAt;
     private Instant updatedAt;
     private String createdBy;

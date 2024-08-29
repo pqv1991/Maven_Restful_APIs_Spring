@@ -35,7 +35,7 @@ public class JobController {
     }
 
     @GetMapping("/jobs")
-    @ApiMessage("FETCH GET ALL SKILLS")
+    @ApiMessage("FETCH GET ALL JOBS")
     public ResponseEntity<ResultPaginationDTO> getAllJobs(@Filter Specification<Job> specification, Pageable pageable){
         return ResponseEntity.ok().body(this.jobService.fetchAllJobs(specification,pageable));
     }

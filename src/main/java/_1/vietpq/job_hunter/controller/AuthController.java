@@ -1,6 +1,9 @@
 package _1.vietpq.job_hunter.controller;
 
+import _1.vietpq.job_hunter.dto.user.ResCreateUserDTO;
+import _1.vietpq.job_hunter.exception.DuplicatedException;
 import _1.vietpq.job_hunter.exception.message.AuthMessage;
+import _1.vietpq.job_hunter.util.annotation.ApiMessage;
 import _1.vietpq.job_hunter.util.validator.AuthValidator;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
@@ -54,7 +57,7 @@ public class AuthController {
         User userData = userService.handleGetUserByUsername(loginDTO.getUsername());
         ResLoginDTO resLoginDTO = new ResLoginDTO();
         if(userData !=null){
-            ResLoginDTO.LoginUser loginUser =  new ResLoginDTO.LoginUser(userData.getId(),userData.getEmail(), userData.getName());
+            ResLoginDTO.LoginUser loginUser =  new ResLoginDTO.LoginUser(userData.getId(),userData.getEmail(), userData.getName(),userData.getRole());
             resLoginDTO.setUser(loginUser);
         }
         String access_token = securityUtil.createAccessToken(authentication.getName(),resLoginDTO);
@@ -81,6 +84,7 @@ public class AuthController {
             loginUser.setId(currentUserDb.getId());
             loginUser.setEmail(currentUserDb.getEmail());
             loginUser.setName(currentUserDb.getName());
+            loginUser.setRole(currentUserDb.getRole());
             userGetAccount.setUser(loginUser);
         }
 
@@ -100,7 +104,7 @@ public class AuthController {
         ResLoginDTO resLoginDTO = new ResLoginDTO();
         User userData = userService.handleGetUserByUsername(email);
         if(userData !=null){
-            ResLoginDTO.LoginUser loginUser = new ResLoginDTO.LoginUser(userData.getId(),userData.getEmail(),userData.getName());
+            ResLoginDTO.LoginUser loginUser = new ResLoginDTO.LoginUser(userData.getId(),userData.getEmail(),userData.getName(),userData.getRole());
             resLoginDTO.setUser(loginUser);
         }
 
@@ -129,4 +133,6 @@ public class AuthController {
         return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, deleteCookie.toString()).body(null);
 
     }
- }
+
+
+}

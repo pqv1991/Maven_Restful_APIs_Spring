@@ -12,7 +12,8 @@ import java.time.Instant;
 @Getter
 @Setter
 @EntityListeners(ResumeListener.class)
-public class Resume {
+public class
+Resume {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
