@@ -23,7 +23,8 @@ public class Subscriber {
     private Instant createdAt;
     private Instant updatedAt;
     private String createdBy;
-    private String updatedBy;@ManyToMany(fetch = FetchType.LAZY)
+    private String updatedBy;
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "subscriber_skill",joinColumns = @JoinColumn(name = "subscriber_id"),inverseJoinColumns = @JoinColumn(name = "skill_id"))
     @JsonIgnoreProperties(value = "subscribers")
     private List<Skill> skills;

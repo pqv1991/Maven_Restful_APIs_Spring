@@ -1,6 +1,8 @@
 package _1.vietpq.job_hunter.util;
 
+import _1.vietpq.job_hunter.util.annotation.ApiMessage;
 import org.springframework.core.MethodParameter;
+import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.server.ServerHttpRequest;
@@ -24,12 +26,16 @@ public class FormatRestException implements ResponseBodyAdvice<Object> {
 
         RestResponse<Object> res = new RestResponse<Object>();
         res.setStatusCode(status);
-
+        if(body instanceof String || body instanceof Resource){
+            return body;
+        }
         if (status >= 400) {
             return body;
         } else {
             res.setData(body);
-            res.setMessage("CALL API SUCCESS");
+            ApiMessage message = returnType.getMethodAnnotation(ApiMessage.class);
+            res.setMessage(message!=null ? message.value() :"CALL API SUCCESS");
+
         }
 
         return res;
